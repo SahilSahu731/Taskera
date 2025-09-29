@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           setUser(null);
           setIsAuthenticated(false);
           if (!isPublicRoute) {
-            navigate("/sign-in");
+            navigate("/login");
           }
         }
       } catch (error) {
@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const handleLogout = () => {
       logout();
-      navigate("/sign-in");
+      navigate("/login");
     };
     window.addEventListener("force-logout", handleLogout);
     return () => window.removeEventListener("force-logout", handleLogout);

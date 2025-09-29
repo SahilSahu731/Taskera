@@ -22,7 +22,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router";
-// import { toast } from "sonner";
+import { toast } from "sonner";
+import { useSignUpMutation } from "@/hooks/use-auth";
 
 export type SignupFormData = z.infer<typeof signUpSchema>;
 
@@ -37,10 +38,26 @@ const SignUp = () => {
       confirmPassword: "",
     },
   });
-  const isPending = false;
+  const { mutate, isPending } = useSignUpMutation();
 
   const handleOnSubmit = (values: SignupFormData) => {
-    console.log(values)
+     mutate(values, {
+      onSuccess: () => {
+        toast.success("Email Verification Required", {
+          description:
+            "Please check your email for a verification link. If you don't see it, please check your spam folder.",
+        });
+
+        form.reset();
+        navigate("/login");
+      },
+      onError: (error: any) => {
+        const errorMessage =
+          error.response?.data?.message || "An error occurred";
+        console.log(error);
+        toast.error(errorMessage);
+      },
+    });
   };
 
   return (
