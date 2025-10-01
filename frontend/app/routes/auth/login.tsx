@@ -1,32 +1,64 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { signInSchema } from '@/lib/schema';
-import React from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Link } from 'react-router';
-import type z from 'zod';
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useLoginMutation } from "@/hooks/use-auth";
+import { signInSchema } from "@/lib/schema";
+import { useAuth } from "@/provider/auth-context";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router";
+import { toast } from "sonner";
+import { z } from "zod";
 
 type SigninFormData = z.infer<typeof signInSchema>;
 
-const Login = () => {
+const SignIn = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
-    const form = useForm<SigninFormData>({
+  const form = useForm<SigninFormData>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
+  const { mutate, isPending } = useLoginMutation();
 
   const handleOnSubmit = (values: SigninFormData) => {
-    console.log(values)
+    mutate(values, {
+      onSuccess: (data) => {
+        login(data);
+        console.log(data);
+        toast.success("Login successful");
+        navigate("/dashboard");
+      },
+      onError: (error: any) => {
+        const errorMessage =
+          error.response?.data?.message || "An error occurred";
+        console.log(error);
+        toast.error(errorMessage);
+      },
+    });
   };
-
   return (
-   <div className="min-h-screen flex flex-col items-center justify-center bg-muted/40 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-muted/40 p-4">
       <Card className="max-w-md w-full shadow-xl">
         <CardHeader className="text-center mb-5">
           <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
@@ -83,12 +115,8 @@ const Login = () => {
                 )}
               />
 
-              <Button 
-              type="submit" 
-              className="w-full" 
-            //   disabled={isPending}
-              > Login
-                {/* {isPending ? <Loader2 className="w-4 h-4 mr-2" /> : "Sign in"} */}
+              <Button type="submit" className="w-full" disabled={isPending}>
+                {isPending ? <Loader2 className="w-4 h-4 mr-2" /> : "Sign in"}
               </Button>
             </form>
           </Form>
@@ -96,14 +124,14 @@ const Login = () => {
           <CardFooter className="flex items-center justify-center mt-6">
             <div className="flex items-center justify-center">
               <p className="text-sm text-muted-foreground">
-                Don&apos;t have an account? <Link to="/signup">Sign up</Link>
+                Don&apos;t have an account? <Link to="/sign-up">Sign up</Link>
               </p>
             </div>
           </CardFooter>
         </CardContent>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default SignIn;

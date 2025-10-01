@@ -61,11 +61,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async (data: any) => {
     console.log("Login data:", data);
-    // localStorage.setItem("token", data.token);
-    // localStorage.setItem("user", JSON.stringify(data.user));
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
 
-    // setUser(data.user);
-    // setIsAuthenticated(true);
+    setUser(data.user);
+    setIsAuthenticated(true);
   };
 
   const logout = async () => {
