@@ -3,7 +3,7 @@ import type { ProjectStatus, Task, TaskStatus } from "@/types";
 export const publicRoutes = [
   "/",
   "/login",
-  "/sign-up",
+  "/signup",
   "/verify-email",
   "/reset-password",
   "/forgot-password",
