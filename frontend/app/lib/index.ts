@@ -1,4 +1,5 @@
-import type { ProjectStatus, Task, TaskStatus } from "@/types";
+import { ProjectStatus } from "@/types";
+import type { Task, TaskStatus } from "@/types";
 
 export const publicRoutes = [
   "/",
@@ -11,19 +12,20 @@ export const publicRoutes = [
 ];
 
 export const getTaskStatusColor = (status: ProjectStatus) => {
+  console.log("Status:", status);
   switch (status) {
     case "In Progress":
-      return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300";
+      return "bg-blue-100/80 text-blue-800 font-medium";
     case "Completed":
-      return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300";
+      return "bg-green-100/80 px-3 py-1 text-green-800 font-medium";
     case "Cancelled":
-      return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300";
+      return "bg-red-100/80 px-3 py-1 text-red-800 font-medium";
     case "On Hold":
-      return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300";
+      return "bg-yellow-100/80 px-3 py-1 text-yellow-800 font-medium";
     case "Planning":
-      return "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300";
+      return "bg-purple-100/80 px-3 py-1 text-purple-800 font-medium";
     default:
-      return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
+      return "bg-gray-100/80 px-3 py-1 text-gray-800 font-medium";
   }
 };
 
