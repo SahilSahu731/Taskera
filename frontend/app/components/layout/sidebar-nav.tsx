@@ -45,7 +45,7 @@ export const SidebarNav = ({
             key={el.href}
             variant={isActive ? "outline" : "ghost"}
             className={cn(
-              "justify-start",
+              "justify-start cursor-pointer",
               isActive && "bg-blue-800/20 text-blue-600 font-medium"
             )}
             onClick={handleClick}

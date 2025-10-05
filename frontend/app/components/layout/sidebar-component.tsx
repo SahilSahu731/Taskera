@@ -108,8 +108,7 @@ export const SidebarComponent = ({
 
       <div className="border-t p-4 flex items-center">
         <Button
-          variant={"ghost"}
-          className="w-full justify-start bg-red-600 text-white"
+          className="w-full justify-start hover:bg-red-500 hover:text-black hover:border hover:border-red-500 bg-red-600 text-white cursor-pointer"
           size={isCollapsed ? "icon" : "default"}
           onClick={logout}
         >
