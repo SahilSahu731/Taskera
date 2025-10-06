@@ -1,5 +1,8 @@
 import { BackButton } from "@/components/back-button";
 import { Loader } from "@/components/loader";
+import { TaskDescription } from "@/components/task/task-description";
+import { TaskStatusSelector } from "@/components/task/task-status-selector";
+import { TaskTitle } from "@/components/task/task-title";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -188,25 +191,25 @@ const TaskDetails = () => {
               />
             </div>
 
-            <TaskAssigneesSelector
+            {/* <TaskAssigneesSelector
               task={task}
               assignees={task.assignees}
               projectMembers={project.members as any}
-            />
+            /> */}
 
-            <TaskPrioritySelector priority={task.priority} taskId={task._id} />
+            {/* <TaskPrioritySelector priority={task.priority} taskId={task._id} /> */}
 
-            <SubTasksDetails subTasks={task.subtasks || []} taskId={task._id} />
+            {/* <SubTasksDetails subTasks={task.subtasks || []} taskId={task._id} /> */}
           </div>
 
-          <CommentSection taskId={task._id} members={project.members as any} />
+          {/* <CommentSection taskId={task._id} members={project.members as any} /> */}
         </div>
 
         {/* right side */}
         <div className="w-full">
-          <Watchers watchers={task.watchers || []} />
+          {/* <Watchers watchers={task.watchers || []} /> */}
 
-          <TaskActivity resourceId={task._id} />
+          {/* <TaskActivity resourceId={task._id} /> */}
         </div>
       </div>
     </div>
