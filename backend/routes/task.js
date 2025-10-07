@@ -4,8 +4,13 @@ import { z } from "zod";
 import { validateRequest } from "zod-express-middleware";
 import { taskSchema } from "../libs/validate-schema.js";
 import {
+  achievedTask,
+  addComment,
   addSubTask,
   createTask,
+  getActivityByResourceId,
+  getCommentsByTaskId,
+  getMyTasks,
   getTaskById,
   updateSubTask,
   updateTaskAssignees,
@@ -13,6 +18,7 @@ import {
   updateTaskPriority,
   updateTaskStatus,
   updateTaskTitle,
+  watchTask,
 } from "../controllers/task.js";
 import authMiddleware from "../middleware/auth-middleware.js";
 
@@ -38,6 +44,34 @@ router.post(
     body: z.object({ title: z.string() }),
   }),
   addSubTask
+);
+
+router.post(
+  "/:taskId/add-comment",
+  authMiddleware,
+  validateRequest({
+    params: z.object({ taskId: z.string() }),
+    body: z.object({ text: z.string() }),
+  }),
+  addComment
+);
+
+router.post(
+  "/:taskId/watch",
+  authMiddleware,
+  validateRequest({
+    params: z.object({ taskId: z.string() }),
+  }),
+  watchTask
+);
+
+router.post(
+  "/:taskId/achieved",
+  authMiddleware,
+  validateRequest({
+    params: z.object({ taskId: z.string() }),
+  }),
+  achievedTask
 );
 
 router.put(
@@ -90,6 +124,8 @@ router.put(
   updateTaskAssignees
 );
 
+router.get("/my-tasks", authMiddleware, getMyTasks);
+
 router.put(
   "/:taskId/priority",
   authMiddleware,
@@ -109,5 +145,23 @@ router.get(
     }),
   }),
   getTaskById
+);
+
+router.get(
+  "/:resourceId/activity",
+  authMiddleware,
+  validateRequest({
+    params: z.object({ resourceId: z.string() }),
+  }),
+  getActivityByResourceId
+);
+
+router.get(
+  "/:taskId/comments",
+  authMiddleware,
+  validateRequest({
+    params: z.object({ taskId: z.string() }),
+  }),
+  getCommentsByTaskId
 );
 export default router;

@@ -1,11 +1,14 @@
 import { BackButton } from "@/components/back-button";
 import { Loader } from "@/components/loader";
+import { CommentSection } from "@/components/task/comment-section";
 import { SubTasksDetails } from "@/components/task/sub-tasks";
+import { TaskActivity } from "@/components/task/task-activity";
 import { TaskAssigneesSelector } from "@/components/task/task-assignees-selector";
 import { TaskDescription } from "@/components/task/task-description";
 import { TaskPrioritySelector } from "@/components/task/task-priority-selector";
 import { TaskStatusSelector } from "@/components/task/task-status-selector";
 import { TaskTitle } from "@/components/task/task-title";
+import { Watchers } from "@/components/task/watchers";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -141,8 +144,8 @@ const TaskDetails = () => {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6">
-        <div className="lg:col-span-2">
+      <div className="flex w-full flex-col lg:flex-row gap-6">
+        <div className="lg:col-span-2 w-full">
           <div className="bg-card rounded-lg p-6 shadow-sm mb-6">
             <div className="flex flex-col md:flex-row justify-between items-start mb-4">
               <div>
@@ -205,14 +208,14 @@ const TaskDetails = () => {
             <SubTasksDetails subTasks={task.subtasks || []} taskId={task._id} />
           </div>
 
-          {/* <CommentSection taskId={task._id} members={project.members as any} /> */}
+          <CommentSection taskId={task._id} members={project.members as any} />
         </div>
 
         {/* right side */}
-        <div className="w-full">
-          {/* <Watchers watchers={task.watchers || []} /> */}
+        <div className="w-ful lg:w-1/3">
+          <Watchers watchers={task.watchers || []} />
 
-          {/* <TaskActivity resourceId={task._id} /> */}
+          <TaskActivity resourceId={task._id} />
         </div>
       </div>
     </div>

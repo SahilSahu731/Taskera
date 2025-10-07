@@ -30,7 +30,7 @@ const DashboardLayout = () => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/sign-in" />;
+    return <Navigate to="/login" />;
   }
 
   const handleWorkspaceSelected = (workspace: Workspace) => {
