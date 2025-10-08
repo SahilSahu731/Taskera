@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DashboardPage from "./index";
 import { useAuth } from "@/provider/auth-context";
-import { Navigate, Outlet } from "react-router";
+import { Navigate, Outlet, useLoaderData } from "react-router";
 import { Loader } from "@/components/loader";
 import type { Workspace } from "@/types";
 import { Header } from "@/components/layout/Header";
@@ -20,10 +20,25 @@ export const clientLoader = async () => {
 
 const DashboardLayout = () => {
   const { isAuthenticated, isLoading } = useAuth();
+  const { workspaces } = useLoaderData() as { workspaces: Workspace[] };
   const [isCreatingWorkspace, setIsCreatingWorkspace] = useState(false);
-  const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(
-    null
-  );
+  const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
+
+  useEffect(() => {
+    if (workspaces?.length > 0) {
+      // Get the last selected workspace ID from localStorage
+      const lastWorkspaceId = localStorage.getItem("lastSelectedWorkspace");
+      
+      // Find the last selected workspace or use the first one
+      const workspace = lastWorkspaceId 
+        ? workspaces.find(w => w._id === lastWorkspaceId) 
+        : workspaces[0];
+      
+      if (workspace) {
+        setCurrentWorkspace(workspace);
+      }
+    }
+  }, [workspaces]);
 
   if (isLoading) {
     return <Loader />;
@@ -35,6 +50,8 @@ const DashboardLayout = () => {
 
   const handleWorkspaceSelected = (workspace: Workspace) => {
     setCurrentWorkspace(workspace);
+    // Save the selected workspace ID to localStorage
+    localStorage.setItem("lastSelectedWorkspace", workspace._id);
   };
 
   return (
